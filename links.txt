@@ -1,3 +1,5 @@
+http://www.activestate.com/blog/2014/01/deploying-your-own-private-docker-registry
+
 https://blog.openshift.com/day-21-docker-the-missing-tutorial/
 
 http://stackoverflow.com/questions/16647069/should-i-use-vagrant-or-docker-io-for-creating-an-isolated-environment/16761439#16761439
