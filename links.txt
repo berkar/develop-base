@@ -1,0 +1,10 @@
+https://blog.openshift.com/day-21-docker-the-missing-tutorial/
+
+http://stackoverflow.com/questions/16647069/should-i-use-vagrant-or-docker-io-for-creating-an-isolated-environment/16761439#16761439
+
+http://mark.stratmann.me/articles/implementing-a-vagrant-docker-development-environment
+
+http://www.vagrantup.com/blog/feature-preview-vagrant-1-6-docker-dev-environments.html
+
+http://www.vagrantup.com/blog/feature-preview-vagrant-1-6-windows.html
+
