@@ -1,3 +1,0 @@
-oracle-java7
-oracle-java8
-jboss-wildfly-8.1

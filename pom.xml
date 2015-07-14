@@ -1,0 +1,537 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>se.berkar</groupId>
+	<artifactId>develop-base</artifactId>
+	<version>1.0.0-0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<scm>
+		<connection>scm:git:ssh://github.com/berkar/develop-base.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/berkar/develop-base.git</developerConnection>
+		<url>http://github.com/berkar/develop-base.git</url>
+	</scm>
+
+	<modules>
+		<module>docker</module>
+	</modules>
+
+	<properties>
+		<forceSnapshotDeploy>false</forceSnapshotDeploy>
+		<flogg.version>${project.version}</flogg.version>
+
+		<jboss.as.version>8.0.0.Final</jboss.as.version>
+		<jboss.ee.version>1.0.0.Final</jboss.ee.version>
+
+		<jboss.logging.version>3.1.4.GA</jboss.logging.version>
+
+		<hibernate.version>4.3.1.Final</hibernate.version>
+		<hibernate-validator.version>5.0.3.Final</hibernate-validator.version>
+
+		<jackson.version>1.9.13</jackson.version>
+
+		<slf4j.version>1.7.2</slf4j.version>
+
+		<geotools.version>8.5</geotools.version>
+
+		<shiro.version>1.2.1</shiro.version>
+
+		<saerimner-services.groupId>com.metria.saerimner.system.services</saerimner-services.groupId>
+		<saerimner-services.version>4.1.0-5</saerimner-services.version>
+
+		<saerimner-clients.groupId>com.metria.saerimner.system.clients.extjs</saerimner-clients.groupId>
+		<saerimner-clients.artifactId>saerimner-ext_4_1_x-client</saerimner-clients.artifactId>
+		<saerimner-clients.version>4.0.0-3</saerimner-clients.version>
+
+		<deployment-host>localhost</deployment-host>
+		<deployment-port>9990</deployment-port>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Add all dependencies used within the project here -->
+			<dependency>
+				<groupId>${saerimner-services.groupId}</groupId>
+				<artifactId>saerimner-security-shiro</artifactId>
+				<version>${saerimner-services.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-web</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${saerimner-services.groupId}</groupId>
+				<artifactId>saerimner-archive-service</artifactId>
+				<version>${saerimner-services.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>${saerimner-services.groupId}</groupId>
+				<artifactId>saerimner-document-service</artifactId>
+				<version>${saerimner-services.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>${saerimner-services.groupId}</groupId>
+				<artifactId>saerimner-fme-service</artifactId>
+				<version>${saerimner-services.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>${saerimner-services.groupId}</groupId>
+				<artifactId>saerimner-hantera-api</artifactId>
+				<version>${saerimner-services.version}</version>
+			</dependency>
+			<!--
+						<dependency>
+							<groupId>${saerimner-services.groupId}</groupId>
+							<artifactId>saerimner-print</artifactId>
+							<version>${saerimner-services.version}</version>
+						</dependency>
+			-->
+			<dependency>
+				<groupId>${saerimner-services.groupId}</groupId>
+				<artifactId>saerimner-web</artifactId>
+				<version>${saerimner-services.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>${saerimner-clients.groupId}</groupId>
+				<artifactId>${saerimner-clients.artifactId}</artifactId>
+				<version>${saerimner-clients.version}</version>
+				<classifier>bin</classifier>
+				<type>zip</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>${jboss.logging.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.geotools</groupId>
+				<artifactId>gt-geojson</artifactId>
+				<version>${geotools.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.geotools</groupId>
+				<artifactId>gt-wfs</artifactId>
+				<version>${geotools.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-envers</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>3.9</version>
+			</dependency>
+
+			<!-- this will override the one in the izpack plugin -->
+			<dependency>
+				<groupId>org.codehaus.izpack</groupId>
+				<artifactId>izpack-standalone-compiler</artifactId>
+				<version>4.3.2</version>
+				<!-- dont want to download this artifact when retrieve the installer as transitive dependency -->
+				<optional>true</optional>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Include the JBoss' Java EE 7 APIs -->
+		<!-- JBoss distributes a complete set of Java EE 6 APIs including a
+		   Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or a
+		   collection) of artifacts. We use this here so that we always get the correct
+		   versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can
+		   read this as the JBoss stack of the Java EE 6 Web Profile APIs), and we use
+		   version 2.0.0.Beta1 which is the latest release of the stack. You can actually
+		   use this stack with any version of JBoss AS that implements Java EE 6, not
+		   just JBoss AS 7! -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-7.0</artifactId>
+			<version>${jboss.ee.version}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Add all projects dependencies here -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>${jboss.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Add all projects TEST dependencies here -->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.18.1-GA</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.twip</groupId>
+			<artifactId>twip</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.openpojo</groupId>
+			<artifactId>openpojo</artifactId>
+			<version>0.3.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.5.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.5.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.restfuse</groupId>
+			<artifactId>com.eclipsesource.restfuse</artifactId>
+			<version>1.2.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>1.3.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.4.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.izpack</groupId>
+					<artifactId>izpack-maven-plugin</artifactId>
+					<version>1.0-alpha-5</version>
+
+					<!-- common configuration by all executions -->
+					<configuration>
+						<descriptor>${basedir}/src/main/izpack/install.xml</descriptor>
+						<izpackBasedir>${staging.dir}</izpackBasedir>
+						<installerFile>${project.build.directory}/${project.build.finalName}.jar</installerFile>
+					</configuration>
+
+					<executions>
+						<execution>
+							<id>standard-installer</id>
+							<phase>package</phase>
+							<goals>
+								<goal>izpack</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.2.1</version>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<!-- this is used for inheritance merges -->
+							<phase>package</phase>
+							<!-- append to the packaging phase. -->
+							<goals>
+								<goal>attached</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.3.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-ejb-plugin</artifactId>
+					<version>2.3</version>
+					<configuration>
+						<jarName>${project.build.finalName}</jarName>
+						<ejbVersion>3.0</ejbVersion>
+						<generateClient>false</generateClient>
+						<archive>
+							<manifestEntries>
+								<Dependencies>org.jboss.logging</Dependencies>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.1.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-ear-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<!-- JBoss AS plugin to deploy war -->
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>1.0.1.Final</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>deploy</goal>
+							</goals>
+							<configuration>
+								<hostname>${deployment-host}</hostname>
+								<port>${deployment-port}</port>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.zeroturnaround</groupId>
+					<artifactId>jrebel-maven-plugin</artifactId>
+					<version>1.1.5</version>
+					<executions>
+						<execution>
+							<id>generate-rebel-xml</id>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</execution>
+					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.plexus</groupId>
+							<artifactId>plexus-utils</artifactId>
+							<version>1.4.1</version>
+							<scope>runtime</scope>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>1.2.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-m5.1</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<source>8</source>
+					<minmemory>128m</minmemory>
+					<maxmemory>512m</maxmemory>
+					<failOnError>false</failOnError>
+					<additionalparam>-Xdoclint:none</additionalparam>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+					<meminitial>128m</meminitial>
+					<maxmem>512m</maxmem>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<locales>en</locales>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<!-- Don't run out of per gen space -->
+					<argLine>-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>project-team</report>
+							<report>cim</report>
+							<report>issue-tracking</report>
+							<report>scm</report>
+							<report>dependencies</report>
+							<report>index</report>
+							<report>summary</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<!-- JIRA VICNATUR-1797 - javadoc.exe ran out of memory when creating site -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<minmemory>128m</minmemory>
+					<maxmemory>512m</maxmemory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>clover</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.atlassian.maven.plugins</groupId>
+						<artifactId>maven-clover2-plugin</artifactId>
+						<version>3.0.2</version>
+						<configuration>
+							<jdk>1.7</jdk>
+							<!--
+																<targetPercentage>50%</targetPercentage>
+															   -->
+							<license><![CDATA[RqNrsOBdXrPtQmtbFGGkxMmTRrXeXIvvDuJLbJcVRCJgrl
+		mi2KqZ7QWmhJNd048o7XEkws2K>K>du4rMEDrKytCk2r<v RPNnvUnnqpnOOqRMoQNtXRQQmrPqqpRMQouSWwSxSSWStU WvwwOpnmnmUUnouuqqpsmmmmmUUnouuqqpsmmmmmUUCXkq jXqbofbqUUnm ]]></license>
+							<includes>
+								<include>com/metria/lkab/**/*.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/*Test*.java</exclude>
+							</excludes>
+						</configuration>
+						<executions>
+							<execution>
+								<id>main</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>instrument</goal>
+									<goal>aggregate</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>site</id>
+								<phase>pre-site</phase>
+								<goals>
+									<goal>instrument</goal>
+									<goal>aggregate</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>com.atlassian.maven.plugins</groupId>
+						<artifactId>maven-clover2-plugin</artifactId>
+						<configuration>
+							<generateHtml>true</generateHtml>
+							<generateXml>true</generateXml>
+							<generateHistorical>true</generateHistorical>
+							<contextFilters>try,static</contextFilters>
+						</configuration>
+					</plugin>
+				</plugins>
+			</reporting>
+		</profile>
+	</profiles>
+</project>

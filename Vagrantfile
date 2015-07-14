@@ -12,7 +12,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #JBoss
   config.vm.network :forwarded_port, host: 8080, guest: 8080
   config.vm.network :forwarded_port, host: 9990, guest: 9990
-  config.vm.network :forwarded_port, host: 9999, guest: 9999
   config.vm.network :forwarded_port, host: 8787, guest: 8787
 
   #PostGIS

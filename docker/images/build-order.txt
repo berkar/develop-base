@@ -1,0 +1,6 @@
+oracle-java7
+oracle-java8
+postgis-9.4
+jboss-wildfly-8.0
+jboss-wildfly-8.1
+jboss-wildfly-9.0
