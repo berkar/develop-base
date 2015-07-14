@@ -18,6 +18,10 @@
 .idea
 *.iml
 
+# Vagrant files/dirs #
+###################
+.vagrant
+
 # Maven files/dirs #
 ###################
 target
